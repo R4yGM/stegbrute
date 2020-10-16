@@ -1,4 +1,4 @@
-# StegBrute
+# stegbrute
 Steganography bruteforce tool written in Rust
 
 <p align="center">
