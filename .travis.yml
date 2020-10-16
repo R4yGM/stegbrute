@@ -10,4 +10,4 @@ addons:
 
 after_success: |
   cargo install stegbrute &&
-  stegbrute -h
+  stegbrute
