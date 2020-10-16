@@ -30,7 +30,10 @@ cargo install stegbrute
 ```bash
 docker pull r4yan/stegbrute:latest
   ```
-  you can also decide to pull different images by replacing 'latest' with a stegbrute version
+  you can also decide to pull different images by replacing 'latest' with a stegbrute version, ex.
+  ```bash
+docker pull r4yan/stegbrute:0.1.0
+  ```
   
   then you can run the program by launching a container and then autoremoving it 
   ```bash
