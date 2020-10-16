@@ -9,5 +9,5 @@ addons:
       - cargo
 
 after_success: |
-  cargo install &&
+  cargo install stegbrute &&
   stegbrute -h
