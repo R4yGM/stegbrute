@@ -1,3 +1,4 @@
+![](https://api.travis-ci.org/R4yGM/StegBrute.svg)
 # stegbrute
 Steganography bruteforce tool written in Rust
 
