@@ -9,7 +9,7 @@ addons:
       - cargo
 env:
   global:
-    - PATH=/home/travis/.cargo/bin
+    - PATH=$HOME/.cargo/bin:$PATH
 
 after_success: |
   cargo install stegbrute &&
