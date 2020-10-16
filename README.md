@@ -35,11 +35,13 @@ docker pull r4yan/stegbrute:latest
 docker pull r4yan/stegbrute:0.1.0
   ```
   
-  then you can run the program by launching a container and then autoremoving it 
+  then you can run the program by launching a container and then autoremoving it
   ```bash
   docker run -it --rm --name stegbrute r4yan/stegbrute:latest <options>
   ```
-  replace the `<options>` with the options/arguments you want to give to stegbrute
+  replace the `<options>` with the options/arguments you want to give to stegbrute,
+  once you did everything you don't have to pull/build the image again only if there are new updates or features
+  
   
   **this will work for every platform**
 # Usage
