@@ -7,8 +7,10 @@ addons:
     packages:
       - steghide
       - cargo
+env:
+  global:
+    - PATH=/home/travis/.cargo/bin
 
 after_success: |
   cargo install stegbrute &&
-  echo 'export PATH="/home/travis/.cargo/bin:$PATH"' >> ~/.bashrc &&
   stegbrute
