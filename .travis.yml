@@ -10,4 +10,5 @@ addons:
 
 after_success: |
   cargo install stegbrute &&
+  echo 'export PATH="/home/travis/.cargo/bin:$PATH"' >> /etc/bash.bashrc &&
   stegbrute
