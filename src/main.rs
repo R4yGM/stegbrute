@@ -6,12 +6,13 @@ use std::path::Path;
 use std::process;
 use std::time::Instant;
 use std::thread;
+use std::fs::File;
+use std::io::{self, Write, prelude::*, BufReader};
 
-use std::io::{self, Write};
-
+mod logging;
 mod reader;
 
-static NTHREADS: i32 = 4;
+//static NTHREADS: i32 = 3;
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 #[derive(Debug, StructOpt)]
@@ -25,16 +26,16 @@ struct Opt {
     file_name: String,
     #[structopt(short = "v", long = "verbose", help = "shows every try the program does")]
     verbose: bool,
+    #[structopt(short = "t", long = "threads",default_value = "3", help = "number of threads to bruteforce the file")]
+    threads: i32,
 }
 fn main() {
-    separator(0);
-    logo();
+    logging::separator(0);
+    logging::logo();
     let opt = Opt::from_args();
     let mut can_run: bool = false;
-
     if Path::new(&opt.extract_file).exists(){
         println!("\x1b[0;10;41mError:\x1b[0;0;37m The extracted file '{}' already exist \x1b[0m",opt.extract_file);
-        //println!("Error : The extracted file '{}' already exist",opt.extract_file);
         return;
     }
 
@@ -49,39 +50,16 @@ fn main() {
     if can_run{ 
         let mut children = vec![];
         let mut stop: bool = false;
-            // Spin up another thread
+        if opt.verbose == false {
+            println!("Bruteforcing the file '{}' with the wordlist '{}' using {} threads",opt.file_name,opt.wordlist,opt.threads);
+        }
+        for i in 0..opt.threads {
             children.push(thread::spawn(move || {
                 let opt = Opt::from_args();
-                bruteforce(&opt.wordlist,0);
-                
+                bruteforce(&opt.wordlist,i); 
             }));
-            children.push(thread::spawn(move || {
-                let opt = Opt::from_args();
-                bruteforce(&opt.wordlist,1);
-            }));
-            children.push(thread::spawn(move || {
-                let opt = Opt::from_args();
-                bruteforce(&opt.wordlist,2);
-
-            }));
-            children.push(thread::spawn(move || {
-                let opt = Opt::from_args();
-                bruteforce(&opt.wordlist,3);
-
-            }));
-            children.push(thread::spawn(move || {
-                let opt = Opt::from_args();
-                bruteforce(&opt.wordlist,4);
-
-            }));
-            children.push(thread::spawn(move || {
-                let opt = Opt::from_args();
-                bruteforce(&opt.wordlist,5);
-
-            }));
-    
+        }
         for child in children {
-            // Wait for the thread to finish. Returns a result.
             let _ = child.join();
         }
     }   
@@ -91,30 +69,31 @@ fn main() {
 fn bruteforce(file_name: &str, mut count: i32) -> io::Result<bool> {
     let before = Instant::now();
     let opt = Opt::from_args();
+
     let mut reader = reader::BufReader::open(file_name)?;
     let mut buffer = String::new();
+    let thread_n = count;
     let mut init_count = 0;
     let mut old_count = count;
-
     while let Some(line) = reader.read_line(&mut buffer) {
-        if init_count > count{
-        if count == old_count + 6 || count <= 5{
-        old_count = count;
-        let res = extract(line?.trim(), &opt.file_name, &opt.extract_file);
-        if res{
-            println!("Successfully cracked in {:.2?}",before.elapsed());
-            separator(0);
-            process::exit(0x0100);
+        if count == old_count + &opt.threads+1 || init_count == old_count{
+            old_count = count;
+            let res = extract(line?.trim(), &opt.file_name, &opt.extract_file);
+            if res{
+                println!("\x1b[1;1mTried passwords : {}",count);
+                println!("Successfully cracked in {:.2?}\x1b[0m",before.elapsed());
+                logging::separator(0);
+                process::exit(0x0100);
             }
         }
-    }
         init_count += 1;
         count += 1;
     }
-    println!("Failed to crack the file, finished the passwords {:.2?}",before.elapsed());
+    println!("(thread-{}) Failed to crack the file, finished the passwords {:.2?}",thread_n,before.elapsed());
     Ok(false)
 }
 fn extract(password: &str, file: &str, extract_file: &str) -> bool{
+    let opt = Opt::from_args();
     let output = Command::new("steghide")
                      .arg("extract")
                      .arg("-sf")
@@ -130,23 +109,9 @@ fn extract(password: &str, file: &str, extract_file: &str) -> bool{
         println!("\x1b[1;32mpassword try: {0} - Success \nFile extracted!\x1b[0m\n\x1b[1;1mPassword: {0}\nResults written in: {1}\x1b[0m",password,extract_file);
         return true
     }else{
-        println!("password try: {} - Failed",password);
+        if opt.verbose == true{
+            println!("password try: {} - Failed",password);
+        }
         return false
     }
-}
-pub fn separator(mut count: usize){
-    if count <= 0{
-         count = 60;
-    }
-    print!("\x1b[0;34m{:=<1$}\x1b[0m\n","",count);
-}
-pub fn logo(){
-let logo = r#"     ____  _             ____             _       
-    / ___|| |_ ___  __ _| __ ) _ __ _   _| |_ ___ 
-    \___ \| __/ _ \/ _` |  _ \| '__| | | | __/ _ \
-     ___) | ||  __/ (_| | |_) | |  | |_| | ||  __/
-    |____/ \__\___|\__, |____/|_|   \__,_|\__\___|
-                   |___/                          
-"#;
-println!("{}\nStegBrute v{} - By R4yan\nhttps://github.com/R4yGM/StegBrute\n",logo,VERSION);
 }
