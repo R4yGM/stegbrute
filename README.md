@@ -81,6 +81,14 @@ docker pull r4yan/stegbrute:0.1.0
   
   
   **this will work for every platform**
+  
+  ## Executable
+  you can also download the already compiled programn and then execute it, example :
+  ```bash
+wget https://github.com/R4yGM/stegbrute/releases/download/0.1.1/stegbrute && chmod +x stegbrute
+mv stegbrute /usr/local/bin/
+```
+
 # Usage
 
 stegbrute is very simple to use and it gives you many options, you can view the program help with the -h or --help option
