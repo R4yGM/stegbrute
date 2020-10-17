@@ -22,6 +22,12 @@ cargo install stegbrute
 ```
 **this will work for every platform**
 
+## Debian distributions
+
+<img src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/debian-512.png" width=35 height=35>
+
+if you have ubuntu/kali or other debian distributions you can install the .deb file you find on the [releases](https://github.com/R4yGM/stegbrute/releases) section, then unpack the file and run it
+
 ## **Docker**
 
 <img src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/97_Docker-512.png" width=35 height=35>
