@@ -1,9 +1,10 @@
-FROM rust:1.31
-LABEL author="R4yan <https://github.com/R4yGM/stegbrute>"
+FROM rust:alpine as builder
 
 WORKDIR /usr/src/stegbrute
-COPY . .
+RUN cargo install stegbrute
 
-RUN cargo install --path .
-
-CMD ["stegbrute"]
+FROM alpine:3.12
+RUN apk add --no-cache --update && \
+    apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing steghide
+COPY --from=builder /usr/local/cargo/bin/stegbrute /usr/local/bin/stegbrute
+ENTRYPOINT [ "/usr/local/bin/stegbrute" ]
