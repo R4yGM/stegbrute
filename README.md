@@ -1,6 +1,6 @@
 ![](https://api.travis-ci.org/R4yGM/StegBrute.svg)
 # stegbrute
-stegbrute is a steganography brute-force tool written in Rust using also threads to achieve a faster execution 
+stegbrute is a fast steganography brute-force tool written in Rust using also threads to achieve a faster execution 
 
 <p align="center">
   <img src="https://i.imgur.com/zGFolUt.png" >
@@ -82,6 +82,51 @@ docker pull r4yan/stegbrute:0.1.0
   **this will work for every platform**
 # Usage
 
+stegbrute is very simple to use and it gives you many options, you can view the program help with the -h or --help option
+
+```bash
+============================================================
+     ____  _             ____             _
+    / ___|| |_ ___  __ _| __ ) _ __ _   _| |_ ___
+    \___ \| __/ _ \/ _` |  _ \| '__| | | | __/ _ \
+     ___) | ||  __/ (_| | |_) | |  | |_| | ||  __/
+    |____/ \__\___|\__, |____/|_|   \__,_|\__\___|
+                   |___/
+
+StegBrute v0.1.1 - By R4yan
+https://github.com/R4yGM/StegBrute
+
+StegBrute 0.1.1
+R4yan <yessou.rayan@gmail.com>
+Steganography bruteforce tool
+
+USAGE:
+    stegbrute [FLAGS] [OPTIONS] --file-name <file-name> --wordlist <wordlist>
+
+FLAGS:
+    -h, --help       Prints help information
+    -V, --version    Prints version information
+    -v, --verbose    shows every try the program does
+
+OPTIONS:
+    -x, --extract-file <extract-file>    the file name path where you want to write the results [default:
+                                         stegbrute_results.txt]
+    -f, --file-name <file-name>          the file name path you want to crack
+    -t, --threads <threads>              number of threads to bruteforce the file [default: 3]
+    -w, --wordlist <wordlist>            path of the wordlist
+```
+
+for example :
+
 <p align="center">
 <a href="https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7" target="_blank"><img src="https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7.svg" /></a>
 </p>
+
+Options :
+- `-x` or `--extract-file` with `<file_name>` will save the results of the extracted data into the file_name, if no file is specified stegbrute will save your results inside ./stegbrute_results.txt file
+
+- `-t` or `--threads` with `<number_of_threads>` will launch a number of programs bruteforcing the file simultaneously, incrementing the number of threads doesn't always mean this will run more faster it all depends on how many threads your machine can handle
+
+- `-f` or `--file_name` with `<file_name>` the file name that stegbrute is going to attack, must be one of these supported formats : JPEG, BMP, WAV or AU
+
+- `-w` or `--wordlist` with `<wordlist>` the file where stegbrute is going to take the passwords line by line and then start trying them to the file you want to crack, if you don't have one you can install for example [rockyou.txt](https://github.com/praetorian-inc/Hob0Rules/blob/master/wordlists/rockyou.txt.gz)
