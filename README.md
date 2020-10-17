@@ -37,8 +37,8 @@ cargo install stegbrute
 
 if you have ubuntu/kali or other debian distributions you can install the .deb file you find on the [releases](https://github.com/R4yGM/stegbrute/releases) section, then unpack the file and run it
 ```bash
-wget https://github.com/R4yGM/stegbrute/releases/download/0.1.0/stegbrute_0.1.0_amd64.deb &&
-dpkg --install stegbrute_0.1.0_amd64.deb
+wget https://github.com/R4yGM/stegbrute/releases/download/0.1.1/stegbrute_0.1.1_amd64.deb &&
+dpkg --install stegbrute_0.1.1_amd64.deb
 ```
 
 ## **Docker**
