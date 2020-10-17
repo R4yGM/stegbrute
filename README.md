@@ -130,3 +130,13 @@ Options :
 - `-f` or `--file_name` with `<file_name>` the file name that stegbrute is going to attack, must be one of these supported formats : JPEG, BMP, WAV or AU
 
 - `-w` or `--wordlist` with `<wordlist>` the file where stegbrute is going to take the passwords line by line and then start trying them to the file you want to crack, if you don't have one you can install for example [rockyou.txt](https://github.com/praetorian-inc/Hob0Rules/blob/master/wordlists/rockyou.txt.gz)
+
+# Benchmark
+stegbrute benchmark on different wordlists using 3 threads
+
+| Wordlist passwords   | Time  |  
+|---|---|
+| 100   | 841.12ms  |  
+| 1000  | 8.57s  |   
+| 10000 | 77.79s |
+| 100000 | 775.93s  |  
