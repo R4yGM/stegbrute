@@ -1,18 +1,18 @@
 use std::process::Command;
 use std::env;
-use std::path::PathBuf;
+//use std::path::PathBuf;
 use structopt::StructOpt;
 use std::path::Path;
 use std::process;
 use std::time::Instant;
 use std::thread;
-use std::fs::File;
-use std::io::{self, Write, prelude::*, BufReader};
+//use std::fs::File;
+use std::io::{self};
 
 mod logging;
 mod reader;
+mod run;
 
-//static NTHREADS: i32 = 3;
 const VERSION: &'static str = env!("CARGO_PKG_VERSION");
 
 #[derive(Debug, StructOpt)]
@@ -34,22 +34,30 @@ fn main() {
     logging::logo();
     let opt = Opt::from_args();
     let mut can_run: bool = false;
+    match Command::new("steghide").output() {
+        Ok(_) => {can_run = true;println!("exist");},
+        Err(e) => {
+            if let not_found = e.kind() {
+                println!("\x1b[0;10;41mError:\x1b[0;0;37m `steghide` is not installed!")
+            } else {
+                println!("\x1b[0;10;41mError:\x1b[0;0;37m `steghide` is not installed!");
+            }
+        }, 
+    }
     if Path::new(&opt.extract_file).exists(){
         println!("\x1b[0;10;41mError:\x1b[0;0;37m The extracted file '{}' already exist \x1b[0m",opt.extract_file);
         return;
     }
-
     if Path::new(&opt.wordlist).exists() == false{
-        println!("Error :the wordlist '{}' doesn't exist",opt.wordlist);
+        println!("\x1b[0;10;41mError:\x1b[0;0;37m the wordlist '{}' doesn't exist",opt.wordlist);
         return;
     }else{can_run = true}
     if Path::new(&opt.file_name).exists() == false{
-        println!("the file '{}' doesn't exist",opt.file_name);
+        println!("\x1b[0;10;41mError:\x1b[0;0;37m the file '{}' doesn't exist",opt.file_name);
         return;
     }else{can_run = true}
     if can_run{ 
         let mut children = vec![];
-        let mut stop: bool = false;
         if opt.verbose == false {
             println!("Bruteforcing the file '{}' with the wordlist '{}' using {} threads",opt.file_name,opt.wordlist,opt.threads);
         }
@@ -78,9 +86,9 @@ fn bruteforce(file_name: &str, mut count: i32) -> io::Result<bool> {
     while let Some(line) = reader.read_line(&mut buffer) {
         if count == old_count + &opt.threads+1 || init_count == old_count{
             old_count = count;
-            let res = extract(line?.trim(), &opt.file_name, &opt.extract_file);
+            let res = run::extract(line?.trim(), &opt.file_name, &opt.extract_file, opt.verbose);
             if res{
-                println!("\x1b[1;1mTried passwords : {}",count);
+                println!("\x1b[1;1mTried passwords : {}",count-1);
                 println!("Successfully cracked in {:.2?}\x1b[0m",before.elapsed());
                 logging::separator(0);
                 process::exit(0x0100);
@@ -91,27 +99,4 @@ fn bruteforce(file_name: &str, mut count: i32) -> io::Result<bool> {
     }
     println!("(thread-{}) Failed to crack the file, finished the passwords {:.2?}",thread_n,before.elapsed());
     Ok(false)
-}
-fn extract(password: &str, file: &str, extract_file: &str) -> bool{
-    let opt = Opt::from_args();
-    let output = Command::new("steghide")
-                     .arg("extract")
-                     .arg("-sf")
-                     .arg(file)
-                     .arg("-xf")
-                     .arg(extract_file)
-                     .arg("-p")
-                     .arg(password)
-                     .arg("-f")
-                     .output()
-                     .expect("failed to execute process");
-    if String::from_utf8_lossy(&output.stderr).contains("wrote extracted data to"){
-        println!("\x1b[1;32mpassword try: {0} - Success \nFile extracted!\x1b[0m\n\x1b[1;1mPassword: {0}\nResults written in: {1}\x1b[0m",password,extract_file);
-        return true
-    }else{
-        if opt.verbose == true{
-            println!("password try: {} - Failed",password);
-        }
-        return false
-    }
 }

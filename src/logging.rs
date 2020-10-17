@@ -3,7 +3,7 @@ pub fn separator(mut count: usize){
     if count <= 0{
          count = 60;
     }
-    print!("\x1b[0;34m{:=<1$}\x1b[0m\n","",count);
+    print!("\x1b[1;20m{:=<1$}\x1b[0m\n","",count);
 }
 pub fn logo(){
 let logo = r#"     ____  _             ____             _       
