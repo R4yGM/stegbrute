@@ -1,11 +1,20 @@
 ![](https://api.travis-ci.org/R4yGM/StegBrute.svg)
 # stegbrute
-stegbrute is a steganography brute-force tool written in Rust to achieve a faster execution using also threads
+stegbrute is a steganography brute-force tool written in Rust using also threads to achieve a faster execution 
 
 <p align="center">
   <img src="https://i.imgur.com/zGFolUt.png" >
 </p>
 
+# Dependencies
+
+Stegbrute cannot run without **steghide**!, to install steghide run :
+
+```bash
+apt-get install -y steghide
+```
+
+if you are not in a debian distribution you can download it from steghide [website](http://steghide.sourceforge.net/)
 
 # Installation
 stegbrute can be installed in different ways:
@@ -27,6 +36,10 @@ cargo install stegbrute
 <img src="https://cdn0.iconfinder.com/data/icons/flat-round-system/512/debian-512.png" width=35 height=35>
 
 if you have ubuntu/kali or other debian distributions you can install the .deb file you find on the [releases](https://github.com/R4yGM/stegbrute/releases) section, then unpack the file and run it
+```bash
+wget https://github.com/R4yGM/stegbrute/releases/download/0.1.0/stegbrute_0.1.0_amd64.deb &&
+dpkg --install stegbrute_0.1.0_amd64.deb
+```
 
 ## **Docker**
 
