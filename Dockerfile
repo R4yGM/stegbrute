@@ -1,10 +1,11 @@
-FROM golang:1.13
+FROM rust:alpine as builder
+RUN apk add --no-cache build-base
 
-RUN mkdir -p /app
+WORKDIR /usr/src/stegbrute
+RUN cargo install stegbrute
 
-WORKDIR /app
-
-RUN apt-get update && apt-get install
-RUN go get  github.com/R4yGM/netscanner
-
-RUN netscanner
+FROM alpine:3.12
+RUN apk add --no-cache --update && \
+    apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing steghide
+COPY --from=builder /usr/local/cargo/bin/stegbrute /usr/local/bin/stegbrute
+ENTRYPOINT [ "/usr/local/bin/stegbrute" ]
