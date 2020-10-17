@@ -82,6 +82,6 @@ docker pull r4yan/stegbrute:0.1.0
   **this will work for every platform**
 # Usage
 
-
-[![asciicast](https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7.svg)](https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7)
-
+<p align="center">
+<a href="https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7" target="_blank"><img src="https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7.svg" /></a>
+</p>
