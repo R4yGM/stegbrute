@@ -10,9 +10,10 @@ stegbrute is a steganography brute-force tool written in Rust to achieve a faste
 # Installation
 stegbrute can be installed in different ways:
 
+- **Cargo**:
+
 <img src="https://community.kde.org/images.community/thumb/5/5e/Rust-logo-512x512-blk.png/300px-Rust-logo-512x512-blk.png" width=35 height=35>
 
-- **Cargo**:
  throught [cargo](https://github.com/rust-lang/cargo) (Rust package manager)
  
  if you don't have cargo you can install it either from apt or by downloading Rust lang
@@ -21,9 +22,10 @@ cargo install stegbrute
 ```
 **this will work for every platform**
 
+- **Docker**:
+
 <img src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/97_Docker-512.png" width=35 height=35>
 
-- **Docker**:
   if you don't have docker installed you can follow their [guide](https://docs.docker.com/engine/install/)
   
  first you have to pull the docker image from the docker registry, you can see it [here](https://hub.docker.com/r/r4yan/stegbrute), if you don't want to pull the image you can also clone the repository and then build the image from the Dockerfile
