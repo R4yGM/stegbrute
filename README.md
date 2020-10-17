@@ -1,4 +1,5 @@
 ![](https://api.travis-ci.org/R4yGM/StegBrute.svg)
+![](https://img.shields.io/docker/cloud/build/r4yan/stegbrute)
 # stegbrute
 stegbrute is a fast steganography brute-force tool written in Rust using also threads to achieve a faster execution 
 
