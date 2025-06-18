@@ -127,7 +127,7 @@ OPTIONS:
 for example :
 
 <p align="center">
-<a href="https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7" target="_blank"><img src="https://asciinema.org/a/5YUpQhY76MQE6vXDIVNNyK9T7.svg" /></a>
+<a href="https://asciinema.org/a/365972" target="_blank"><img src="https://asciinema.org/a/365972.svg" /></a>
 </p>
 
 Options :
